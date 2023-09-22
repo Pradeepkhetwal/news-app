@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Navbar from './Components/Navbar';
 import News from './Components/News';
 
-// Video-33.
+// Video-31.
 // Dekho jab bhi hum log single page application banate hai to hota ye hai ki suppose aapke navbar mein bahut saare options hai jisse aap ek page se dusre page par jao do link reload karna padta hai par react k case mein agar aap single page par hi rehkar hi page ko change karna chahte ho to uske liye you have to use router and switch so at first install them simply type react router dom in google aur uski site ko open kare and copy the syntax to install react router dom aur us syntax ko vs code k terminal  par paste kar de and after install react router dom uski site se import kara le switch aur router. 
 // Below is imported from react router site.
 
