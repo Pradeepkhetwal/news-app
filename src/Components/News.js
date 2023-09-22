@@ -30,9 +30,22 @@ export class News extends Component {
       articles: [],
       loading: false,
       page:1
-    
     }
   }
+
+  
+  async updateNews(){
+    const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=67731dcdf96849bf96844cefcc276e59&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+
+    let data = await fetch(url);
+    console.log("This below is data");
+    console.log(data);
+    // converting data we get from news api link to json
+    let parsedata = await data.json();
+    this.setState({ articles: parsedata.articles });
+  }
+ 
+
   // This componentDidMount runs after the render at first the constructor runs then render() and thn at last componentDidMound() runs.
 
   // if we use async keyword before componentDidMount() then this method will become asyncronous means this method can wait to fully execute until certain conditions occur.
@@ -42,48 +55,60 @@ export class News extends Component {
   async componentDidMount() {
     // creating a variable to store link.
     let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=67731dcdf96849bf96844cefcc276e59&page=1&pageSize=${this.props.pageSize}`;
-    // fetch api takes url and returns a promise, now until the promise is resolved the function will wait.
 
+
+    // fetch api takes url and returns a promise, now until the promise is resolved the function will wait.
     // now we can convert this data into json or text or any other form.
-    let data = await fetch(url);
-    console.log("This below is data");
-    console.log(data);
+
+    // let data = await fetch(url);
+    // console.log("This below is data");
+    // console.log(data);
+
+
     // converting data we get from news api link to json
-    let parsedata = await data.json();
-    this.setState({ articles: parsedata.articles });
+
+    // let parsedata = await data.json();
+    // this.setState({ articles: parsedata.articles });
+    this.updateNews();
   }
+
   handleonPrev=async()=>{
-    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=67731dcdf96849bf96844cefcc276e59&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
-    this.setState({loading:true});
-    let data = await fetch(url);
-    let parsedata = await data.json();
-    this.setState({
-      articles:parsedata.articles,
-      page:this.state.page-1,
-      loading:false
-    })
+    // let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=67731dcdf96849bf96844cefcc276e59&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
+    // this.setState({loading:true});
+    // let data = await fetch(url);
+    // let parsedata = await data.json();
+    // this.setState({
+    //   articles:parsedata.articles,
+    //   page:this.state.page-1,
+    //   loading:false
+    // })
+
+    this.setState({page:this.state.page-1});
+    this.updateNews();
   }
     handleonNext=async()=>{
-     if(this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)){
-     }
+    //  if(this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)){
+    //  }
       // We have gone through the documentation of news api and we get to know from the 'everything' section that pagesize bascially tell us about how many news(or articles) elements will be in a page.
 
       // so here we are setting page size as 20 which means that each page will consist of 20 elements of news.
 
       // from our sample input we came to know that there is an key named totalresult which bascially shows that how articles or data is fetched from the api if totalresult =30 means a toatal of 30 news articles are fetched from the api and if the pagesize = 10 then we will require 3 pages to show all of them.
-      else{
-        let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=67731dcdf96849bf96844cefcc276e59&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
-        this.setState({loading:true});
-        let data = await fetch(url)
-        let parsedata = await data.json();
-        this.setState(
-          {
-            articles:parsedata.articles,
-            page : this.state.page+1,
-            loading:false
-          }
-        )
-      }
+      // else{
+      //   let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=67731dcdf96849bf96844cefcc276e59&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
+      //   this.setState({loading:true});
+      //   let data = await fetch(url)
+      //   let parsedata = await data.json();
+      //   this.setState(
+      //     {
+      //       articles:parsedata.articles,
+      //       page : this.state.page+1,
+      //       loading:false
+      //     }
+      //   )
+      // }
+      this.setState({page:this.state.page+1});
+      this.updateNews();
     }
   render() {
     return (
@@ -109,7 +134,7 @@ export class News extends Component {
         </div>
         <div className="container d-flex justify-content-between">
           <button type="button" className="btn btn-dark" onClick={this.handleonPrev} disabled={this.state.page<=1}>&larr;Previous</button>
-          <button type="button" className="btn btn-dark" onClick={this.handleonNext} disabled={this.state.page>Math.ceil(this.state.totalResults/this.props.pageSize)}>Next&rarr;</button>
+          <button type="button" className="btn btn-dark" onClick={this.handleonNext} disabled={this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)}>Next&rarr;</button>
         </div>
       </>
     )
