@@ -21,16 +21,28 @@ export class News extends Component {
     category:PropTypes.string //pts shortcut for proptype.string.
   }
 
+      // Function so that we can capitalize first letter of our Heading and title of our webpage.
+      capitalizeFirstLetter =(string)=>{
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+  
+ 
   // below we have articles variables containing an array each element is an object.
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     console.log("constructor");
 
     this.state = {
       articles: [],
       loading: false,
-      page:1
+      page:1,
+      title:this.props.category
     }
+
+
+    //Setting title of our webpage such that it changes according to the news category selected by the user.
+    document.title=`${this.capitalizeFirstLetter(this.props.category)} News`;
+
   }
 
   
@@ -110,11 +122,13 @@ export class News extends Component {
       this.setState({page:this.state.page+1});
       this.updateNews();
     }
+ 
   render() {
     return (
       <>
+
         <div className="container my-4 " >
-          <h1 className="text-center">News Headlines</h1>
+          <h1 className="text-center">{this.capitalizeFirstLetter(this.state.title)} News Headlines</h1>
 
              {/* This below statement means if this.state.loading is true only then Spinner will be visible otherwise not. */}
           {this.state.loading && <Spinner/>}
