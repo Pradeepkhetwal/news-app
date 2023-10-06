@@ -48,8 +48,7 @@ export class News extends Component {
   
   async updateNews(){
     this.props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=67731dcdf96849bf96844cefcc276e59&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-
+    const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     console.log("This below is data");
     console.log(data);
@@ -70,7 +69,7 @@ export class News extends Component {
 
   async componentDidMount() {
     // creating a variable to store link.
-    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=67731dcdf96849bf96844cefcc276e59&page=1&pageSize=${this.props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=${this.props.apiKey}&page=1&pageSize=${this.props.pageSize}`;
 
 
     // fetch api takes url and returns a promise, now until the promise is resolved the function will wait.
