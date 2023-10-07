@@ -29,7 +29,7 @@ const News =(props)=>{
 
  const updateNews = async()=>{
     props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=in&category=${props.category}&apiKey=${props.apiKey}&page=${props.page}&pageSize=${props.pageSize}`;
+    const url = `https://newsapi.org/v2/top-headlines?country=in&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
    
     let data = await fetch(url);
     console.log("This below is data");
@@ -54,7 +54,7 @@ const News =(props)=>{
       useEffect(() => {
           updateNews();
           // eslint-disable-next-line
-      }, [])
+      },[page])
   
  const handleonPrev=async()=>{
     // let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=67731dcdf96849bf96844cefcc276e59&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
@@ -66,9 +66,11 @@ const News =(props)=>{
     //   page:this.state.page-1,
     //   loading:false
     // })
-
+   
     setPage(page-1);
-    updateNews();
+    console.log("clicked previous");
+    console.log(page);
+   
   }
    const handleonNext=async()=>{
     //  if(this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)){
@@ -77,6 +79,7 @@ const News =(props)=>{
 
       // so here we are setting page size as 20 which means that each page will consist of 20 elements of news.
 
+      // from our sample input we came to know that there is an key named totalresult which bascially shows that how articles or data is fetched from the api if totalresult =30 means a toatal of 30 news articles are fetched from the api and if the pagesize = 10 then we will require 3 pages to show all of them.
       // from our sample input we came to know that there is an key named totalresult which bascially shows that how articles or data is fetched from the api if totalresult =30 means a toatal of 30 news articles are fetched from the api and if the pagesize = 10 then we will require 3 pages to show all of them.
       // else{
       //   let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=67731dcdf96849bf96844cefcc276e59&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
@@ -91,10 +94,11 @@ const News =(props)=>{
       //     }
       //   )
       // }
-     setPage(page+1);
-     updateNews();
-    }
+      setPage(page+1);
+    console.log("clicked next");
+    console.log(page);
  
+    }
  
     return (
       <>
@@ -115,7 +119,6 @@ const News =(props)=>{
                 <Newsitem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageurl={element.urlToImage} newsurl={element.url} author={element.author} publishedAt={element.publishedAt} source ={element.source.name}/>
               </div>
             })}
-
           </div>
         </div>
         <div className="container d-flex justify-content-between">
